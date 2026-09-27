@@ -1,66 +1,260 @@
-<!doctype html>
-<html lang="nl">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="PulseMix — een premium muziekdashboard met Spotify en YouTube." />
-  <title>PulseMix 2.0 — Music for every moment</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <div class="layout">
-    <aside class="sidebar" id="sidebar">
-      <div class="logo"><span class="logo-mark">P</span><span>PulseMix</span></div>
-      <button class="close-menu" id="closeMenu">×</button>
-      <nav class="main-nav" aria-label="Hoofdnavigatie">
-        <a class="active" href="#home"><span>⌂</span> Home</a>
-        <a href="#discover"><span>⌕</span> Discover</a>
-        <a href="#radio"><span>◉</span> Radio</a>
-      </nav>
-      <div class="nav-heading"><span>Your Library</span><button aria-label="Nieuwe playlist">+</button></div>
-      <nav class="library-nav">
-        <a href="#liked"><span class="nav-icon liked">♥</span> Liked Songs</a>
-        <a href="#recent"><span class="nav-icon recent">◷</span> Recently played</a>
-        <a href="#albums"><span class="nav-icon album">▦</span> Albums</a>
-      </nav>
-      <div class="playlists">
-        <p class="nav-heading-text">Playlists</p>
-        <a href="#night-drive">Night Drive</a><a href="#focus">Deep Focus</a><a href="#summer">Summer '26</a><a href="#workout">Workout Energy</a>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Premium Spotify-inspired music dashboard with embedded music, videos, and chat."
+    />
+    <title>PulseMix Premium</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark">P</div>
+          <span>PulseMix</span>
+        </div>
+
+        <nav class="nav">
+          <a class="nav-link active" href="#">Home</a>
+          <a class="nav-link" href="#discover">Discover</a>
+          <a class="nav-link" href="#library">Library</a>
+          <a class="nav-link" href="#radio">Radio</a>
+          <a class="nav-link" href="#liked">Liked Songs</a>
+        </nav>
+
+        <div class="section-label">Your playlists</div>
+        <ul class="playlist-list">
+          <li>Night Drive</li>
+          <li>Late Night</li>
+          <li>Focus Flow</li>
+          <li>Golden Hour</li>
+        </ul>
+      </aside>
+
+      <main class="main-panel">
+        <header class="topbar">
+          <div class="top-actions-left">
+            <button class="icon-button">←</button>
+            <button class="icon-button">→</button>
+          </div>
+
+          <div class="main-search-wrap">
+            <span class="search-icon">⌕</span>
+            <input
+              id="searchInput"
+              type="search"
+              placeholder="Search playlists, songs, artists..."
+              aria-label="Search"
+            />
+          </div>
+
+          <div class="profile-wrap">
+            <div class="avatar">A</div>
+            <span>Alex</span>
+          </div>
+        </header>
+
+        <section class="hero" id="discover">
+          <div class="hero-copy">
+            <p class="eyebrow">Featured playlist</p>
+            <h1>Soundtrack your night.</h1>
+            <p>
+              Explore deep house, synthwave, indie beats and moody vocals made for your
+              late-night focus.
+            </p>
+            <div class="hero-actions">
+              <button class="primary-button" id="playHero">Play mix</button>
+              <button class="secondary-button">Follow</button>
+            </div>
+          </div>
+
+          <div class="hero-art">
+            <div class="orb orb-one"></div>
+            <div class="orb orb-two"></div>
+            <div class="record-disc"></div>
+          </div>
+        </section>
+
+        <div class="filter-bar">
+          <button class="filter active" data-filter="all">All</button>
+          <button class="filter" data-filter="made">Made for you</button>
+          <button class="filter" data-filter="chill">Chill</button>
+          <button class="filter" data-filter="energy">Energy</button>
+          <button class="filter" data-filter="focus">Focus</button>
+        </div>
+
+        <section class="music-section" id="library">
+          <div class="section-head">
+            <h2>Made for you</h2>
+            <a href="#">See all</a>
+          </div>
+
+          <div class="playlist-grid" id="playlistGrid"></div>
+        </section>
+
+        <section class="media-section" id="radio">
+          <div class="media-card">
+            <div class="section-head small-head">
+              <h2>Spotify player</h2>
+              <span class="badge green">Live</span>
+            </div>
+            <div class="embed-box spotify-box">
+              <iframe
+                src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M?utm_source=generator&theme=0"
+                title="Spotify playlist"
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                loading="lazy"
+              ></iframe>
+            </div>
+          </div>
+
+          <div class="media-card">
+            <div class="section-head small-head">
+              <h2>YouTube video</h2>
+              <span class="badge red">Video</span>
+            </div>
+            <div class="embed-box youtube-box">
+              <iframe
+                src="https://www.youtube.com/embed/ScMzIvxBSi4?si=G9dDI_gvA4yb7QfZ"
+                title="YouTube video player"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen
+                loading="lazy"
+              ></iframe>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <aside class="right-panel">
+        <div class="now-playing-head">
+          <h3>Now playing</h3>
+          <button>•••</button>
+        </div>
+
+        <div class="now-art art-one"></div>
+
+        <div class="track-meta">
+          <div>
+            <h4 id="trackTitle">Midnight City</h4>
+            <p id="trackArtist">M83</p>
+          </div>
+          <button class="heart-button">♡</button>
+        </div>
+
+        <div class="progress-bar">
+          <span></span>
+        </div>
+        <div class="time-row">
+          <span>1:42</span>
+          <span>4:03</span>
+        </div>
+
+        <div class="controls-row">
+          <button>⏮</button>
+          <button>◀</button>
+          <button class="play-main" id="togglePlay">▶</button>
+          <button>▶</button>
+          <button>⏭</button>
+        </div>
+
+        <div class="queue-header">
+          <h4>Up next</h4>
+          <a href="#">Queue</a>
+        </div>
+
+        <div class="queue-list">
+          <div class="queue-item">
+            <div class="queue-cover cover-a"></div>
+            <div class="queue-info">
+              <strong>Sunset Lover</strong>
+              <span>Petit Biscuit</span>
+            </div>
+            <button>⋯</button>
+          </div>
+
+          <div class="queue-item">
+            <div class="queue-cover cover-b"></div>
+            <div class="queue-info">
+              <strong>Innerbloom</strong>
+              <span>RÜFÜS DU SOL</span>
+            </div>
+            <button>⋯</button>
+          </div>
+
+          <div class="queue-item">
+            <div class="queue-cover cover-c"></div>
+            <div class="queue-info">
+              <strong>Electric Feel</strong>
+              <span>MGMT</span>
+            </div>
+            <button>⋯</button>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <footer class="bottom-player">
+      <div class="bottom-track">
+        <div class="mini-cover art-one"></div>
+        <div>
+          <strong id="miniTitle">Midnight City</strong>
+          <span id="miniArtist">M83</span>
+        </div>
       </div>
-      <div class="sidebar-bottom"><div class="download">⇩ <span>Install app</span></div><div class="user-mini"><span class="avatar">A</span><span>Alex's account</span><span>⌄</span></div></div>
-    </aside>
 
-    <main class="main" id="home">
-      <header class="topbar">
-        <button class="mobile-menu" id="openMenu">☰</button>
-        <div class="history"><button>‹</button><button>›</button></div>
-        <div class="search"><span>⌕</span><input id="searchInput" type="search" placeholder="What do you want to play?" aria-label="Zoeken" /><button id="clearSearch" aria-label="Zoekopdracht wissen">×</button></div>
-        <div class="top-actions"><button class="upgrade">Upgrade</button><button class="icon-btn">♧</button><div class="profile"><span class="avatar">A</span><span>Alex</span><span>⌄</span></div></div>
-      </header>
+      <div class="bottom-controls">
+        <button>⏮</button>
+        <button id="bottomPlayToggle">▶</button>
+        <button>⏭</button>
+      </div>
 
-      <section class="hero" id="discover">
-        <div class="hero-copy"><p class="overline">MADE FOR ALEX</p><h1>Your daily<br><em>soundtrack.</em></h1><p class="hero-description">Fresh music, handpicked for your mood. Discover something new and make today yours.</p><div class="hero-buttons"><button class="primary" id="heroPlay">▶ Play mix</button><button class="ghost">＋ Save playlist</button></div></div>
-        <div class="hero-art"><div class="sun"></div><div class="hero-record"><span></span></div><span class="art-caption">DAILY<br>VIBES</span></div>
-      </section>
+      <div class="bottom-progress">
+        <span>1:42</span>
+        <div class="mini-progress"><span></span></div>
+        <span>4:03</span>
+      </div>
+    </footer>
 
-      <div class="tabs"><button class="tab active" data-filter="all">All</button><button class="tab" data-filter="made">Made for you</button><button class="tab" data-filter="chill">Chill</button><button class="tab" data-filter="energy">Energy</button><button class="tab" data-filter="focus">Focus</button></div>
-      <section class="section" id="recent"><div class="section-title"><h2>Recently played</h2><a href="#">See all</a></div><div class="album-grid" id="albumGrid"></div></section>
+    <div class="chat-widget" id="chatWidget">
+      <div class="chat-header">
+        <div class="chat-title-wrap">
+          <span class="online-dot"></span>
+          <div>
+            <strong>Pulse AI</strong>
+            <small>Music companion</small>
+          </div>
+        </div>
+        <button id="closeChat">−</button>
+      </div>
 
-      <section class="split-section" id="radio">
-        <div class="section"><div class="section-title"><h2>Listen on Spotify</h2><span class="live-label">● LIVE EMBED</span></div><div class="embed spotify-embed"><iframe src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M?utm_source=generator&theme=0" title="Spotify playlist" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe></div></div>
-        <div class="section"><div class="section-title"><h2>Watch on YouTube</h2><span class="live-label youtube-label">● VIDEO</span></div><div class="embed youtube-embed"><iframe src="https://www.youtube.com/embed/ScMzIvxBSi4" title="YouTube music video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe></div></div>
-      </section>
-    </main>
+      <div class="chat-body" id="chatBody">
+        <div class="msg bot">Hey Alex 👋<br />Want a vibe, a playlist, or a mood boost?</div>
+        <div class="quick-picks">
+          <button class="chip">Chill mix</button>
+          <button class="chip">Workout energy</button>
+          <button class="chip">Focus mode</button>
+        </div>
+      </div>
 
-    <aside class="right-panel"><div class="right-heading"><h2>Now playing</h2><button>•••</button></div><div class="now-art" id="nowArt"></div><div class="now-meta"><div><h3 id="nowTitle">Midnight City</h3><p id="nowArtist">M83</p></div><button class="heart">♡</button></div><div class="fake-progress"><span></span></div><div class="time"><span>1:42</span><span>4:03</span></div><div class="controls"><button>↶</button><button>◀</button><button class="big-play" id="playButton">▶</button><button>▶</button><button>↷</button></div><div class="queue-heading"><h3>Up next</h3><a href="#">Open queue</a></div><div class="queue"><div class="queue-item"><span class="queue-cover q1"></span><span><b>Sunset Lover</b><small>Petit Biscuit</small></span><span>•••</span></div><div class="queue-item"><span class="queue-cover q2"></span><span><b>Innerbloom</b><small>RÜFÜS DU SOL</small></span><span>•••</span></div><div class="queue-item"><span class="queue-cover q3"></span><span><b>Electric Feel</b><small>MGMT</small></span><span>•••</span></div></div></aside>
-  </div>
+      <form class="chat-form" id="chatForm">
+        <input id="chatInput" type="text" placeholder="Ask for a vibe..." />
+        <button type="submit">↑</button>
+      </form>
+    </div>
 
-  <section class="chat-widget" id="chatWidget"><div class="chat-top"><div><span class="online"></span><b>Pulse AI</b><small> Your music companion</small></div><button id="minimizeChat">−</button></div><div class="chat-body" id="chatBody"><div class="chat-message bot">Hey Alex 👋<br>Tell me what kind of vibe you're looking for.</div><div class="suggestions"><button>Something chill</button><button>Workout energy</button></div></div><form class="chat-form" id="chatForm"><input id="chatInput" placeholder="Ask Pulse AI..." autocomplete="off" /><button>↑</button></form></section>
-  <button class="chat-launcher" id="chatLauncher">✦<span>Chat with Pulse</span></button>
-  <footer class="bottom-player"><div class="bottom-track"><span class="mini-art"></span><span><b id="bottomTitle">Midnight City</b><small>M83</small></span><button>♡</button></div><div class="bottom-controls"><button>↶</button><button id="bottomPlay">▶</button><button>↷</button></div><div class="bottom-volume"><span>1:42</span><div><i></i></div><span>4:03</span><span>⌕</span><span>▮▮</span></div></footer>
-  <script src="script.js"></script>
-</body>
+    <button class="chat-launcher" id="chatLauncher">✦</button>
+
+    <script src="script.js"></script>
+  </body>
 </html>

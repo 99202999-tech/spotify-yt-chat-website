@@ -1,16 +1,149 @@
-const tracks=[['Midnight City','M83','cover1'],['Sunset Lover','Petit Biscuit','cover2'],['Innerbloom','RÜFÜS DU SOL','cover3'],['Electric Feel','MGMT','cover4']];
-const grid=document.querySelector('#albumGrid');
-function render(filter='all',query=''){
-  const q=query.toLowerCase();
-  grid.innerHTML=tracks.filter((t,i)=>(filter==='all'||(filter==='made'&&i<3)||(filter==='chill'&&i!==3)||(filter==='energy'&&i===3)||(filter==='focus'&&i===2))&&(!q||t.join(' ').toLowerCase().includes(q))).map((t,i)=>`<article class="album-card" data-index="${i}"><div class="album-cover ${t[2]}"></div><h3>${t[0]}</h3><p>${t[1]} · ${i%2?'Daily mix':'Made for you'}</p></article>`).join('')||'<p style="color:#9aa3ad">No results found.</p>';
-  document.querySelectorAll('.album-card').forEach(card=>card.addEventListener('click',()=>playTrack(Number(card.dataset.index))));
+const tracks = [
+  { title: 'Midnight City', artist: 'M83', cover: 'art-one', filter: 'all' },
+  { title: 'Sunset Lover', artist: 'Petit Biscuit', cover: 'art-two', filter: 'chill' },
+  { title: 'Innerbloom', artist: 'RÜFÜS DU SOL', cover: 'art-three', filter: 'focus' },
+  { title: 'Electric Feel', artist: 'MGMT', cover: 'art-two', filter: 'energy' },
+  { title: 'Golden Hours', artist: 'Ava West', cover: 'art-three', filter: 'made' },
+  { title: 'Night Pulse', artist: 'Nova', cover: 'art-one', filter: 'energy' },
+  { title: 'Glass Clouds', artist: 'Kite', cover: 'art-two', filter: 'chill' },
+  { title: 'Afterglow', artist: 'Eli Dew', cover: 'art-three', filter: 'made' }
+];
+
+const playlistGrid = document.getElementById('playlistGrid');
+const filterButtons = document.querySelectorAll('.filter');
+const searchInput = document.getElementById('searchInput');
+const trackTitle = document.getElementById('trackTitle');
+const trackArtist = document.getElementById('trackArtist');
+const miniTitle = document.getElementById('miniTitle');
+const miniArtist = document.getElementById('miniArtist');
+const nowArt = document.querySelector('.now-art');
+const miniCover = document.querySelector('.mini-cover');
+const playHero = document.getElementById('playHero');
+const togglePlay = document.getElementById('togglePlay');
+const bottomPlayToggle = document.getElementById('bottomPlayToggle');
+const chatWidget = document.getElementById('chatWidget');
+const chatLauncher = document.getElementById('chatLauncher');
+const chatForm = document.getElementById('chatForm');
+const chatInput = document.getElementById('chatInput');
+const chatBody = document.getElementById('chatBody');
+
+let activeFilter = 'all';
+let playing = false;
+
+function renderPlaylist() {
+  const query = searchInput.value.trim().toLowerCase();
+
+  const filtered = tracks.filter((track) => {
+    const matchesFilter = activeFilter === 'all' || track.filter === activeFilter;
+    const haystack = `${track.title} ${track.artist}`.toLowerCase();
+    const matchesSearch = !query || haystack.includes(query);
+    return matchesFilter && matchesSearch;
+  });
+
+  if (!filtered.length) {
+    playlistGrid.innerHTML = '<div style="color:#9aa5b1;padding:20px;grid-column:1/-1;">No matching tracks found.</div>';
+    return;
+  }
+
+  playlistGrid.innerHTML = filtered
+    .map(
+      (track, idx) => `
+        <article class="play-card" data-index="${tracks.indexOf(track)}">
+          <div class="card-cover ${track.cover}"></div>
+          <h3>${track.title}</h3>
+          <p>${track.artist}</p>
+        </article>
+      `
+    )
+    .join('');
+
+  document.querySelectorAll('.play-card').forEach((card) => {
+    card.addEventListener('click', () => {
+      const index = Number(card.dataset.index);
+      setCurrentTrack(tracks[index]);
+    });
+  });
 }
-function playTrack(index){const t=tracks[index];document.querySelector('#nowTitle').textContent=t[0];document.querySelector('#nowArtist').textContent=t[1];document.querySelector('#bottomTitle').textContent=t[0];document.querySelector('#nowArt').className=`now-art ${t[2]}`;document.querySelector('#playButton').textContent='Ⅱ';document.querySelector('#bottomPlay').textContent='Ⅱ';}
-render();
-document.querySelectorAll('.tab').forEach(tab=>tab.addEventListener('click',()=>{document.querySelector('.tab.active').classList.remove('active');tab.classList.add('active');render(tab.dataset.filter,document.querySelector('#searchInput').value)}));
-document.querySelector('#searchInput').addEventListener('input',e=>render(document.querySelector('.tab.active').dataset.filter,e.target.value));
-document.querySelector('#clearSearch').addEventListener('click',()=>{document.querySelector('#searchInput').value='';render(document.querySelector('.tab.active').dataset.filter)});
-['#heroPlay','#playButton','#bottomPlay'].forEach(sel=>document.querySelector(sel).addEventListener('click',()=>{const buttons=[document.querySelector('#playButton'),document.querySelector('#bottomPlay')];const playing=buttons[0].textContent==='Ⅱ';buttons.forEach(b=>b.textContent=playing?'▶':'Ⅱ')}));
-const chat=document.querySelector('#chatWidget');document.querySelector('#chatLauncher').addEventListener('click',()=>{chat.classList.add('open');document.querySelector('#chatLauncher').style.display='none'});document.querySelector('#minimizeChat').addEventListener('click',()=>{chat.classList.remove('open');document.querySelector('#chatLauncher').style.display='block'});
-const chatBody=document.querySelector('#chatBody');const form=document.querySelector('#chatForm');const input=document.querySelector('#chatInput');function addChat(text,who='bot'){const el=document.createElement('div');el.className='chat-message';el.style.margin=who==='user'?'10px 0 10px auto':'10px 0';el.style.background=who==='user'?'#1b6338':'#252c34';el.textContent=text;chatBody.appendChild(el);chatBody.scrollTop=chatBody.scrollHeight}form.addEventListener('submit',e=>{e.preventDefault();if(!input.value.trim())return;const text=input.value.trim();addChat(text,'user');input.value='';setTimeout(()=>addChat(text.toLowerCase().includes('work')?'Let’s go! I queued a high-energy mix for your session.':'I found the perfect vibe. Try the Spotify mix above and tell me what you think ✨'),450)});document.querySelectorAll('.suggestions button').forEach(b=>b.addEventListener('click',()=>{input.value=b.textContent;form.requestSubmit()}));
-const sidebar=document.querySelector('#sidebar');document.querySelector('#openMenu').addEventListener('click',()=>sidebar.classList.add('open'));document.querySelector('#closeMenu').addEventListener('click',()=>sidebar.classList.remove('open'));
+
+function setCurrentTrack(track) {
+  trackTitle.textContent = track.title;
+  trackArtist.textContent = track.artist;
+  miniTitle.textContent = track.title;
+  miniArtist.textContent = track.artist;
+  nowArt.className = `now-art ${track.cover}`;
+  miniCover.className = `mini-cover ${track.cover}`;
+}
+
+filterButtons.forEach((button) => {
+  button.addEventListener('click', () => {
+    filterButtons.forEach((btn) => btn.classList.remove('active'));
+    button.classList.add('active');
+    activeFilter = button.dataset.filter;
+    renderPlaylist();
+  });
+});
+
+searchInput.addEventListener('input', renderPlaylist);
+
+function togglePlaybackUI() {
+  playing = !playing;
+  const label = playing ? '❚❚' : '▶';
+  togglePlay.textContent = label;
+  bottomPlayToggle.textContent = label;
+}
+
+playHero.addEventListener('click', togglePlaybackUI);
+togglePlay.addEventListener('click', togglePlaybackUI);
+bottomPlayToggle.addEventListener('click', togglePlaybackUI);
+
+function addMessage(text, sender = 'bot') {
+  const msg = document.createElement('div');
+  msg.className = `msg ${sender}`;
+  msg.innerHTML = text.replace(/\n/g, '<br />');
+  chatBody.appendChild(msg);
+  chatBody.scrollTop = chatBody.scrollHeight;
+}
+
+function getBotReply(input) {
+  const value = input.toLowerCase();
+
+  if (value.includes('chill')) return 'Perfect — I’d go for a late-night chill mix with soft synths and mellow percussion.';
+  if (value.includes('workout') || value.includes('energy')) return 'Let’s push the tempo. I’d queue a strong bass-driven, high-energy set for you.';
+  if (value.includes('focus') || value.includes('study')) return 'Focus mode activated: soft instrumental beats, airy pads, and clean rhythm.';
+  if (value.includes('party')) return 'Night out energy — think punchy drops, groovy bass, and confident vocals.';
+  if (value.includes('hello') || value.includes('hi')) return 'Hey! I can find a playlist, a mood, or the perfect track for your vibe.';
+  return 'I’ve got you — I’d pair that with a smooth mix and a warm visual vibe. Try “chill mix”, “workout energy”, or “focus mode”.';
+}
+
+chatForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const value = chatInput.value.trim();
+  if (!value) return;
+
+  addMessage(value, 'user');
+  chatInput.value = '';
+
+  setTimeout(() => {
+    addMessage(getBotReply(value), 'bot');
+  }, 400);
+});
+
+document.querySelectorAll('.chip').forEach((chip) => {
+  chip.addEventListener('click', () => {
+    chatInput.value = chip.textContent.trim();
+    chatForm.requestSubmit();
+  });
+});
+
+chatLauncher.addEventListener('click', () => {
+  chatWidget.classList.remove('hidden');
+  chatLauncher.style.display = 'none';
+});
+
+document.getElementById('closeChat').addEventListener('click', () => {
+  chatWidget.classList.add('hidden');
+  chatLauncher.style.display = 'block';
+});
+
+renderPlaylist();
+setCurrentTrack(tracks[0]);
